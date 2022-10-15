@@ -9,6 +9,11 @@ import { Response } from 'express';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
+  @Get()
+  siema() {
+    return 'siema';
+  }
+
   @Post('/register')
   createUser(@Body() createUserDto: CreateUserDto) {
     return this.appService.createUser(createUserDto);
