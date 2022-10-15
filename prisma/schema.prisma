@@ -8,26 +8,30 @@ datasource db {
 }
 
 model projects {
-  id          Int      @id
+  id          Int     @id @default(autoincrement())
   title       String?
   author      String?
-  cost        Int?
-  votes       Int?
-  projectsize String?
+  cost        Decimal?
+  votes       Decimal?
+  project_size String?
   description String?
-  location    String?
-  isAproverd  Boolean?
+  localization    String?
+  isApproved  Boolean?
   city        String?
+  lat         Decimal?
+  lng         Decimal?
+  additional_information String?
 }
 
 model users {
-  id       Int      @id
+  id       Int      @id @default(autoincrement())
   email    String?
   password String?
   city     String?
-  PESEL    Int?
+  pesel    Decimal?
   name     String?
   surname  String?
-  phone    Int?
+  phone    String?
   isGov    Boolean?
+  theme    String?
 }
