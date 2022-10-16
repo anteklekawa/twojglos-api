@@ -102,12 +102,10 @@ export class AppRepository {
       },
     });
 
-    console.log(user);
-
-    if (user) {
-      return user[0];
-    } else if (user.length == 0) {
+    if (!user.length) {
       throw new Error('Błędny login lub hasło!');
+    } else {
+      return user[0];
     }
   }
 
