@@ -102,6 +102,8 @@ export class AppRepository {
       },
     });
 
+    console.log(user);
+
     if (user) {
       return user[0];
     } else {
