@@ -38,14 +38,16 @@ export class AppService {
 
   async userLogin(loginUserDto: LoginUserDto) {
     const res = await this.appRepository.userLogin(loginUserDto);
-    const censor_phone = res.phone.split('');
-    for (let i = 4; i < res.phone.length - 2; i++) {
-      if (censor_phone[i] == ' ') {
-        i++;
+    if (!res.phone == null) {
+      const censor_phone = res.phone.split('');
+      for (let i = 4; i < res.phone.length - 2; i++) {
+        if (censor_phone[i] == ' ') {
+          i++;
+        }
+        censor_phone[i] = '*';
       }
-      censor_phone[i] = '*';
+      res.phone = censor_phone.join('');
     }
-    res.phone = censor_phone.join('');
 
     return res;
   }
