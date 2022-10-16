@@ -106,7 +106,7 @@ export class AppRepository {
 
     if (user) {
       return user[0];
-    } else {
+    } else if (user.length == 0) {
       throw new Error('Błędny login lub hasło!');
     }
   }
