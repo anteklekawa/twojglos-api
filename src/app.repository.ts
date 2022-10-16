@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { PrismaService } from './prisma.service';
 import { create } from 'domain';
 import { LoginUserDto } from './dtos/login-user.dto';
@@ -10,21 +14,33 @@ export class AppRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
   async createUser(createUserDto: CreateUserDto) {
-    const user = await this.prismaService.users.create({
-      data: {
-        email: createUserDto.email,
-        password: createUserDto.password,
-        city: createUserDto.city,
-        pesel: createUserDto.pesel,
-        name: createUserDto.name,
-        surname: createUserDto.surname,
-        phone: createUserDto.phone,
-        isGov: createUserDto.isGov,
+    const isExisting = await this.prismaService.users.findMany({
+      where: {
+        OR: [
+          { email: createUserDto.email },
+          { phone: createUserDto.phone },
+          { pesel: createUserDto.pesel },
+        ],
       },
     });
-    if (!user) {
-      throw new Error('Failed to register!');
-    } else return { Status: 'Success!', user };
+    if (isExisting.length < 1) {
+      const user = await this.prismaService.users.create({
+        data: {
+          email: createUserDto.email,
+          password: createUserDto.password,
+          city: createUserDto.city,
+          pesel: createUserDto.pesel,
+          name: createUserDto.name,
+          surname: createUserDto.surname,
+          phone: createUserDto.phone,
+          isGov: createUserDto.isGov,
+        },
+      });
+      if (!user) {
+        throw new Error('Failed to register!');
+      } else return { Status: 'Success!', user };
+    } else
+      throw new UnauthorizedException('Podane dane są już zarejestrowane!');
   }
 
   async createProject(createProjectDto) {
