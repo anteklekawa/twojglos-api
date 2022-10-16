@@ -103,7 +103,7 @@ export class AppRepository {
     });
 
     if (!user.length) {
-      throw new Error('Błędny login lub hasło!');
+      return new Error('Błędny login lub hasło!');
     } else {
       return user[0];
     }
