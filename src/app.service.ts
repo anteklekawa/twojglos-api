@@ -38,7 +38,7 @@ export class AppService {
 
   async userLogin(loginUserDto: LoginUserDto) {
     const res = await this.appRepository.userLogin(loginUserDto);
-    if (!res.phone) {
+    if (!res) {
       const censor_phone = res.phone.split('');
       for (let i = 4; i < res.phone.length - 2; i++) {
         if (censor_phone[i] == ' ') {
