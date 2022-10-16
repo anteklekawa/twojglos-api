@@ -86,7 +86,10 @@ export class AppRepository {
   async userLogin(loginUserDto: LoginUserDto) {
     const user = await this.prismaService.users.findMany({
       where: {
-        OR: [{ email: loginUserDto.login }, { phone: loginUserDto.login }],
+        OR: [
+          { email: loginUserDto.login },
+          { phone: loginUserDto.login || null },
+        ],
         AND: [{ password: loginUserDto.password }],
       },
       select: {
