@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
 import { create } from 'domain';
 import { LoginUserDto } from './dtos/login-user.dto';
@@ -102,11 +102,8 @@ export class AppRepository {
       },
     });
 
-    if (!user.length) {
-      return new Error('Błędny login lub hasło!');
-    } else {
-      return user[0];
-    }
+    if (!user) throw new NotFoundException(`Błędny login lub hasło!`);
+    return user[0];
   }
 
   async projectVote(projectId) {
