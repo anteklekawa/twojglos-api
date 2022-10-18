@@ -20,7 +20,8 @@ export class AppController {
     @Res({ passthrough: true }) response: Response,
   ) {
     const data = await this.appService.userLogin(loginUserDto);
-    response.cookie('userData', data);
+    response.cookie('userData', JSON.stringify(data));
+    return data;
   }
 
   @Post('/delete-user/:userId')
