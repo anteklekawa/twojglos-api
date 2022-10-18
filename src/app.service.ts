@@ -42,7 +42,7 @@ export class AppService {
     const data = await this.appRepository.fetchProject(projectId, userId);
     const coords = { lat: data.project.lat, lng: data.project.lng };
     delete data.project.lng, data.project.lat;
-    return { ...data, coords };
+    return { ...data.project, voted: data.voted, coords };
   }
 
   async userLogin(loginUserDto: LoginUserDto) {

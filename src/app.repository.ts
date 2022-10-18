@@ -38,7 +38,7 @@ export class AppRepository {
       });
       if (!user) {
         throw new Error('Failed to register!');
-      } else return { Status: 'Success!', user };
+      } else return { status: 'Success!', user };
     } else
       throw new UnauthorizedException('Podane dane są już zarejestrowane!');
   }
@@ -58,7 +58,7 @@ export class AppRepository {
       },
     });
     if (!project) {
-      return 'Failed!';
+      return { status: 'Failed!' };
     } else return { status: 'Success', project };
   }
 
@@ -164,7 +164,7 @@ export class AppRepository {
       },
     });
 
-    return 'Your vote has been submitted!';
+    return { status: 'Success' };
   }
 
   async getSettings(userId: number) {
