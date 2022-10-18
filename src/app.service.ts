@@ -29,11 +29,19 @@ export class AppService {
   }
 
   async fetchProjects(city) {
-    return await this.appRepository.fetchProjects(city);
+    const projects = await this.appRepository.fetchProjects(city);
+    projects.map((project) => {
+      const coords = { lat: project.lat, lng: project.lng };
+      delete project.lng, project.lat;
+      return { ...project, coords };
+    });
   }
 
   async fetchProject(projectId: number) {
-    return await this.appRepository.fetchProject(projectId);
+    const project = await this.appRepository.fetchProject(projectId);
+    const coords = { lat: project.lat, lng: project.lng };
+    delete project.lng, project.lat;
+    return { ...project, coords };
   }
 
   async userLogin(loginUserDto: LoginUserDto) {
