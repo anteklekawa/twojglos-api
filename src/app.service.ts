@@ -9,6 +9,7 @@ export class AppService {
   constructor(private readonly appRepository: AppRepository) {}
 
   async createUser(createUserDto: CreateUserDto) {
+    createUserDto.isGov = false;
     return await this.appRepository.createUser(createUserDto);
   }
 
@@ -30,7 +31,7 @@ export class AppService {
 
   async fetchProjects(city) {
     const projects = await this.appRepository.fetchProjects(city);
-    projects.map((project) => {
+    return projects.map((project) => {
       const coords = { lat: project.lat, lng: project.lng };
       delete project.lng, project.lat;
       return { ...project, coords };
