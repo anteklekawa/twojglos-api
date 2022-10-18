@@ -95,12 +95,15 @@ export class AppRepository {
   async fetchProject(projectId: number, userId: number) {
     const id = parseInt(String(projectId));
     userId = parseInt(String(userId));
-    const isVoted = await this.prismaService.votedProjects.findMany({
-      where: {
-        projectId: id,
-        userId,
-      },
-    });
+    let isVoted = [];
+    if (userId != null) {
+      isVoted = await this.prismaService.votedProjects.findMany({
+        where: {
+          projectId: id,
+          userId,
+        },
+      });
+    }
 
     let voted = false;
 
