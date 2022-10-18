@@ -39,17 +39,16 @@ export class AppController {
   }
 
   @Post('/create-project')
-  createProject(
+  async createProject(
     @Body() createProjectDto: CreateProjectDto,
     @Req() request: Request,
   ) {
+    const cookieData = await request.cookies['userData'];
+    console.log(cookieData);
     createProjectDto.isApproved = false;
-    createProjectDto.city = request.cookies['userData']?.city.toLowerCase();
+    createProjectDto.city = cookieData.city.toLowerCase();
     createProjectDto.votes = 0;
-    createProjectDto.author =
-      request.cookies['userData']?.name +
-      ' ' +
-      request.cookies['userData']?.surname;
+    createProjectDto.author = cookieData?.name + ' ' + cookieData?.surname;
     return this.appService.createProject(createProjectDto);
   }
 
