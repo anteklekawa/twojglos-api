@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { AppRepository } from './app.repository';
 import { CreateProjectDto } from './dtos/create-project.dto';
@@ -39,6 +39,8 @@ export class AppService {
   }
 
   async fetchProject(projectId: number, userId: number) {
+    if (userId == null)
+      throw new UnauthorizedException('You are not logged in!');
     const data = await this.appRepository.fetchProject(projectId, userId);
     const coords = { lat: data.project.lat, lng: data.project.lng };
     delete data.project.lng, data.project.lat;

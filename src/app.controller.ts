@@ -63,7 +63,7 @@ export class AppController {
     return this.appService.approveProject(projectId);
   }
 
-  @Get('/fetch-project/:projectId')
+  @Post('/fetch-project/:projectId')
   fetchProject(
     @Param('projectId') projectId: number,
     @Body('userId') userId: number,
