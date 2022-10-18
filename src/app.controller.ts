@@ -1,9 +1,18 @@
-import { Body, Controller, Get, Param, Patch, Post, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Req,
+  Res,
+} from '@nestjs/common';
 import { AppService } from './app.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { CreateProjectDto } from './dtos/create-project.dto';
 import { LoginUserDto } from './dtos/login-user.dto';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 
 @Controller('/api')
 export class AppController {
@@ -30,7 +39,17 @@ export class AppController {
   }
 
   @Post('/create-project')
-  createProject(@Body() createProjectDto: CreateProjectDto) {
+  createProject(
+    @Body() createProjectDto: CreateProjectDto,
+    @Req() request: Request,
+  ) {
+    createProjectDto.isApproved = false;
+    createProjectDto.city = request.cookies['userData']?.city;
+    createProjectDto.votes = 0;
+    createProjectDto.author =
+      request.cookies['userData']?.name +
+      ' ' +
+      request.cookies['userData']?.surname;
     return this.appService.createProject(createProjectDto);
   }
 
