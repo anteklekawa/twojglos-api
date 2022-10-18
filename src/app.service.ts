@@ -38,11 +38,11 @@ export class AppService {
     });
   }
 
-  async fetchProject(projectId: number) {
-    const project = await this.appRepository.fetchProject(projectId);
-    const coords = { lat: project.lat, lng: project.lng };
-    delete project.lng, project.lat;
-    return { ...project, coords };
+  async fetchProject(projectId: number, userId: number) {
+    const data = await this.appRepository.fetchProject(projectId, userId);
+    const coords = { lat: data.project.lat, lng: data.project.lng };
+    delete data.project.lng, data.project.lat;
+    return { ...data, coords };
   }
 
   async userLogin(loginUserDto: LoginUserDto) {
@@ -61,8 +61,8 @@ export class AppService {
     return res;
   }
 
-  async projectVote(projectId) {
-    return await this.appRepository.projectVote(projectId);
+  async projectVote(projectId: number, userId: number) {
+    return await this.appRepository.projectVote(projectId, userId);
   }
 
   async getSettings(userId: number) {

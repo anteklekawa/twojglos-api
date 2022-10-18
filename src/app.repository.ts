@@ -59,7 +59,7 @@ export class AppRepository {
     });
     if (!project) {
       return 'Failed!';
-    } else return 'Success!\n' + project;
+    } else return { status: 'Success', project };
   }
 
   async deleteUser(userId: number) {
@@ -88,15 +88,30 @@ export class AppRepository {
 
   async fetchProjects(city) {
     return await this.prismaService.projects.findMany({
-      where: { isApproved: true, city },
+      where: { city },
     });
   }
 
-  async fetchProject(projectId: number) {
+  async fetchProject(projectId: number, userId: number) {
     const id = parseInt(String(projectId));
-    return await this.prismaService.projects.findFirst({
-      where: { id },
+    userId = parseInt(String(userId));
+    const isVoted = await this.prismaService.votedProjects.findMany({
+      where: {
+        projectId: id,
+        userId,
+      },
     });
+
+    let voted = false;
+
+    if (isVoted.length > 0) voted = true;
+
+    return {
+      project: await this.prismaService.projects.findFirst({
+        where: { id },
+      }),
+      voted: voted,
+    };
   }
 
   async userLogin(loginUserDto: LoginUserDto) {
@@ -118,16 +133,37 @@ export class AppRepository {
       },
     });
 
-    if (!user) throw new NotFoundException(`Błędny login lub hasło!`);
+    if (user.length == 0)
+      throw new NotFoundException(`Błędny login lub hasło!`);
     return user[0];
   }
 
-  async projectVote(projectId) {
-    const id = parseInt(String(projectId));
+  async projectVote(projectid: number, userid: number) {
+    const projectId = parseInt(String(projectid));
+    const userId = parseInt(String(userid));
+
+    const isVoted = await this.prismaService.votedProjects.findMany({
+      where: {
+        projectId,
+        userId,
+      },
+    });
+
+    if (isVoted.length > 0)
+      throw new UnauthorizedException('You have already voted!');
+
     await this.prismaService.projects.update({
-      where: { id },
+      where: { id: projectId },
       data: { votes: { increment: 1 } },
     });
+
+    await this.prismaService.votedProjects.create({
+      data: {
+        userId,
+        projectId,
+      },
+    });
+
     return 'Your vote has been submitted!';
   }
 

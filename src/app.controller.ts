@@ -9,11 +9,6 @@ import { Response } from 'express';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get()
-  siema() {
-    return 'siema';
-  }
-
   @Post('/register')
   createUser(@Body() createUserDto: CreateUserDto) {
     return this.appService.createUser(createUserDto);
@@ -49,8 +44,11 @@ export class AppController {
   }
 
   @Get('/fetch-project/:projectId')
-  fetchProject(@Param('projectId') projectId: number) {
-    return this.appService.fetchProject(projectId);
+  fetchProject(
+    @Param('projectId') projectId: number,
+    @Body('userId') userId: number,
+  ) {
+    return this.appService.fetchProject(projectId, userId);
   }
 
   @Get('/fetch-projects/:city')
@@ -59,8 +57,11 @@ export class AppController {
   }
 
   @Post('/vote/:projectId')
-  projectVote(@Param('projectId') projectId: number) {
-    return this.appService.projectVote(projectId);
+  projectVote(
+    @Param('projectId') projectId: number,
+    @Body('userId') userId: number,
+  ) {
+    return this.appService.projectVote(projectId, userId);
   }
 
   @Get('/settings/:userId')
