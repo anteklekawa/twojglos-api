@@ -73,6 +73,7 @@ export class AppController {
 
   @Get('/fetch-projects/:city')
   fetchProjects(@Param('city') city: string) {
+    city = city.toLowerCase();
     return this.appService.fetchProjects(city);
   }
 
