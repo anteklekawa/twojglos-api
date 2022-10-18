@@ -44,7 +44,7 @@ export class AppController {
     @Req() request: Request,
   ) {
     const cookieData = await request.cookies['userData'];
-    console.log(cookieData);
+    console.log(request.cookies['userData']);
     createProjectDto.isApproved = false;
     createProjectDto.city = cookieData.city.toLowerCase();
     createProjectDto.votes = 0;
