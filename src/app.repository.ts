@@ -96,7 +96,7 @@ export class AppRepository {
     const id = parseInt(String(projectId));
     userId = parseInt(String(userId));
     let isVoted = [];
-    if (!userId) {
+    if (userId) {
       isVoted = await this.prismaService.votedProjects.findMany({
         where: {
           projectId: id,
