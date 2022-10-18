@@ -44,7 +44,7 @@ export class AppController {
     @Req() request: Request,
   ) {
     createProjectDto.isApproved = false;
-    createProjectDto.city = request.cookies['userData']?.city;
+    createProjectDto.city = request.cookies['userData']?.city.toLowerCase();
     createProjectDto.votes = 0;
     createProjectDto.author =
       request.cookies['userData']?.name +
