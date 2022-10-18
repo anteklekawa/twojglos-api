@@ -39,12 +39,13 @@ export class AppService {
   }
 
   async fetchProject(projectId: number, userId: number) {
-    if (userId == null)
-      throw new UnauthorizedException('You are not logged in!');
-    const data = await this.appRepository.fetchProject(projectId, userId);
-    const coords = { lat: data.project.lat, lng: data.project.lng };
-    delete data.project.lng, data.project.lat;
-    return { ...data.project, voted: data.voted, coords };
+    if (!userId) throw new UnauthorizedException('You are not logged in!');
+    else {
+      const data = await this.appRepository.fetchProject(projectId, userId);
+      const coords = { lat: data.project.lat, lng: data.project.lng };
+      delete data.project.lng, data.project.lat;
+      return { ...data.project, voted: data.voted, coords };
+    }
   }
 
   async userLogin(loginUserDto: LoginUserDto) {
