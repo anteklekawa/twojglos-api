@@ -42,3 +42,9 @@ model votedProjects {
     projectId Int
 }
 
+model userProjects {
+    id Int @id @default(autoincrement())
+    userId Int
+    projectId Int
+}
+

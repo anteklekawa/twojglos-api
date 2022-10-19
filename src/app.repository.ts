@@ -59,7 +59,15 @@ export class AppRepository {
     });
     if (!project) {
       return { status: 'Failed!' };
-    } else return { status: 'Success', project };
+    } else {
+      await this.prismaService.userProjects.create({
+        data: {
+          userId: createProjectDto.userId,
+          projectId: project.id,
+        },
+      });
+      return { status: 'Success', project };
+    }
   }
 
   async deleteUser(userId: number) {

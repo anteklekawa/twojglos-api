@@ -8,4 +8,5 @@ export class CreateProjectDto {
   localization: string;
   isApproved: boolean;
   city: string;
+  userId: number;
 }
