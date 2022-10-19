@@ -55,6 +55,7 @@ export class AppRepository {
         localization: createProjectDto.localization,
         description: createProjectDto.description,
         isApproved: createProjectDto.isAproved,
+        additional_information: createProjectDto.additional_information,
       },
     });
     if (!project) {
@@ -123,6 +124,13 @@ export class AppRepository {
       }),
       voted: voted,
     };
+  }
+
+  async fetchUserProjects(userId: number) {
+    userId = parseInt(String(userId));
+    return await this.prismaService.userProjects.findMany({
+      where: { userId },
+    });
   }
 
   async userLogin(loginUserDto: LoginUserDto) {

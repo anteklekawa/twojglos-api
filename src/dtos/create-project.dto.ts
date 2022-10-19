@@ -9,4 +9,5 @@ export class CreateProjectDto {
   isApproved: boolean;
   city: string;
   userId: number;
+  additional_information: string;
 }

@@ -69,6 +69,11 @@ export class AppController {
     return this.appService.fetchProjects(city);
   }
 
+  @Get('/fetch-user-projects/:userId')
+  fetchUserProjects(@Param('userId') userId: number) {
+    return this.appService.fetchUserProjects(userId);
+  }
+
   @Post('/vote/:projectId')
   projectVote(
     @Param('projectId') projectId: number,

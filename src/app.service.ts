@@ -3,6 +3,7 @@ import { CreateUserDto } from './dtos/create-user.dto';
 import { AppRepository } from './app.repository';
 import { CreateProjectDto } from './dtos/create-project.dto';
 import { LoginUserDto } from './dtos/login-user.dto';
+import { WASI } from 'wasi';
 
 @Injectable()
 export class AppService {
@@ -37,6 +38,25 @@ export class AppService {
       const coords = { lat: project.lat, lng: project.lng };
       delete project.lng, project.lat;
       return { ...project, coords };
+    });
+  }
+
+  async fetchUserProjects(userId: number) {
+    const userProjects = await this.appRepository.fetchUserProjects(userId);
+    const data = [];
+
+    const getProject = async (projectId) => {
+      return new Promise(async (resolve, reject) => {
+        resolve(await this.appRepository.fetchProject(projectId, userId));
+      });
+    };
+
+    for (const userProject of userProjects) {
+      data.push(await getProject(userProject.projectId));
+    }
+
+    return data.map((dataset) => {
+      return { ...dataset?.project, ...dataset?.voted };
     });
   }
 
