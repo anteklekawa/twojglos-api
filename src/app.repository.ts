@@ -116,15 +116,29 @@ export class AppRepository {
       });
     }
 
+    let isAuthorArr = [];
+    if (userId) {
+      isAuthorArr = await this.prismaService.userProjects.findMany({
+        where: {
+          userId,
+        },
+      });
+    }
+
+    let isAuthor = false;
+
     let voted = false;
 
     if (isVoted.length > 0) voted = true;
+
+    if (isAuthorArr.length > 0) isAuthor = true;
 
     return {
       project: await this.prismaService.projects.findFirst({
         where: { id },
       }),
       voted: voted,
+      isAuthor: isAuthor,
     };
   }
 

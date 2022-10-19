@@ -56,7 +56,15 @@ export class AppService {
     }
 
     return data.map((dataset) => {
-      return { ...dataset?.project, ...dataset?.voted };
+      const coords = { lat: dataset.project.lat, lng: dataset.project.lng };
+
+      delete dataset.project.lng, dataset.project.lat;
+
+      return {
+        ...dataset?.project,
+        ...dataset?.voted,
+        coords,
+      };
     });
   }
 
@@ -64,7 +72,12 @@ export class AppService {
     const data = await this.appRepository.fetchProject(projectId, userId);
     const coords = { lat: data.project.lat, lng: data.project.lng };
     delete data.project.lng, data.project.lat;
-    return { ...data.project, voted: data.voted, coords };
+    return {
+      ...data.project,
+      coords,
+      voted: data.voted,
+      isAuthor: data.isAuthor,
+    };
   }
 
   async userLogin(loginUserDto: LoginUserDto) {
