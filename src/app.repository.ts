@@ -34,6 +34,7 @@ export class AppRepository {
           surname: createUserDto.surname,
           phone: createUserDto.phone,
           isGov: createUserDto.isGov,
+          theme: createUserDto.theme,
         },
       });
       if (!user) {
@@ -77,6 +78,12 @@ export class AppRepository {
     const id = parseInt(String(userId));
     await this.prismaService.users.delete({
       where: { id },
+    });
+    await this.prismaService.votedProjects.deleteMany({
+      where: { userId: id },
+    });
+    await this.prismaService.userProjects.deleteMany({
+      where: { userId: id },
     });
   }
 
@@ -222,6 +229,6 @@ export class AppRepository {
       where: { id },
       data: { theme },
     });
-    return 'Success! Your preferences has been changed!';
+    return { status: 'success' };
   }
 }

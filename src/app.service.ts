@@ -11,6 +11,7 @@ export class AppService {
 
   async createUser(createUserDto: CreateUserDto) {
     createUserDto.isGov = false;
+    createUserDto.theme = 'light';
     return await this.appRepository.createUser(createUserDto);
   }
 

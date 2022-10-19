@@ -7,4 +7,5 @@ export class CreateUserDto {
   surname: string;
   phone: string;
   isGov: boolean;
+  theme: string;
 }
