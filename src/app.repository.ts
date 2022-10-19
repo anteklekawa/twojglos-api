@@ -225,10 +225,11 @@ export class AppRepository {
 
   async saveSettings(userId: number, theme: string) {
     const id = parseInt(String(userId));
-    this.prismaService.users.update({
-      where: { id },
-      data: { theme },
+    const userUpdate = await this.prismaService.users.update({
+      where: { id: id },
+      data: { theme: theme },
     });
+
     return { status: 'success' };
   }
 }
