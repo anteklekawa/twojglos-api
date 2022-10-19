@@ -56,6 +56,8 @@ export class AppRepository {
         description: createProjectDto.description,
         isApproved: createProjectDto.isAproved,
         additional_information: createProjectDto.additional_information,
+        lat: createProjectDto.coords.lat,
+        lng: createProjectDto.coords.lng,
       },
     });
     if (!project) {

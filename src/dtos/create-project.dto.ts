@@ -10,4 +10,5 @@ export class CreateProjectDto {
   city: string;
   userId: number;
   additional_information: string;
+  coords: { lng: number; lat: number };
 }
