@@ -38,7 +38,7 @@ export class AppService {
   async fetchProjects(city) {
     const projects = await this.appRepository.fetchProjects(city);
     return projects.map((project) => {
-      const coords = { lat: project.lat, lng: project.lng };
+      const coords = { lat: Number(project.lat), lng: Number(project.lng) };
       delete project.lng, project.lat;
       return { ...project, coords };
     });
@@ -59,7 +59,10 @@ export class AppService {
     }
 
     return data.map((dataset) => {
-      const coords = { lat: dataset.project.lat, lng: dataset.project.lng };
+      const coords = {
+        lat: Number(dataset.project.lat),
+        lng: Number(dataset.project.lng),
+      };
 
       delete dataset.project.lng, dataset.project.lat;
 
@@ -73,7 +76,10 @@ export class AppService {
 
   async fetchProject(projectId: number, userId: number) {
     const data = await this.appRepository.fetchProject(projectId, userId);
-    const coords = { lat: data.project.lat, lng: data.project.lng };
+    const coords = {
+      lat: Number(data.project.lat),
+      lng: Number(data.project.lng),
+    };
     delete data.project.lng, data.project.lat;
     return {
       ...data.project,
