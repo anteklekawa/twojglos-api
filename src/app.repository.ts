@@ -62,7 +62,7 @@ export class AppRepository {
     } else {
       await this.prismaService.userProjects.create({
         data: {
-          userId: createProjectDto.userId,
+          userId: parseInt(String(createProjectDto.userId)),
           projectId: project.id,
         },
       });
