@@ -40,8 +40,6 @@ export class AppController {
 
   @Post('/create-project')
   async createProject(@Body() createProjectDto: CreateProjectDto) {
-    createProjectDto.isApproved = false;
-    createProjectDto.votes = 0;
     return this.appService.createProject(createProjectDto);
   }
 

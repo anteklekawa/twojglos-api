@@ -15,6 +15,9 @@ export class AppService {
   }
 
   async createProject(createProjectDto: CreateProjectDto) {
+    createProjectDto.isApproved = false;
+    createProjectDto.votes = 0;
+    createProjectDto.city = createProjectDto.city.toLowerCase();
     if (createProjectDto.userId == -1 || !createProjectDto.userId)
       throw new UnauthorizedException('You are not logged in!');
     return await this.appRepository.createProject(createProjectDto);
