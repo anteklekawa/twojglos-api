@@ -38,7 +38,6 @@ export class AppService {
   }
 
   async fetchProjects(city, phrase) {
-    if (!phrase) phrase = '';
     const projects = await this.appRepository.fetchProjects(city, phrase);
     return projects.map((project) => {
       const coords = { lat: Number(project.lat), lng: Number(project.lng) };
