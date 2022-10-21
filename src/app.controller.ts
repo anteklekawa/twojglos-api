@@ -14,6 +14,7 @@ import { CreateUserDto } from './dtos/create-user.dto';
 import { CreateProjectDto } from './dtos/create-project.dto';
 import { LoginUserDto } from './dtos/login-user.dto';
 import { Request, Response } from 'express';
+import { queryDto } from './dtos/query.dto';
 
 @Controller('/api')
 export class AppController {
@@ -63,10 +64,10 @@ export class AppController {
   }
 
   @Get('/fetch-projects/:city')
-  fetchProjects(@Param('city') city: string, @Query() phrase: string) {
-    if (!phrase) phrase = '';
+  fetchProjects(@Param('city') city: string, @Query() query: queryDto) {
+    if (Object.keys(query).length === 0) query.phrase = '';
     city = city.toLowerCase();
-    return this.appService.fetchProjects(city, phrase);
+    return this.appService.fetchProjects(city, query.phrase);
   }
 
   @Get('/fetch-user-projects/:userId')
