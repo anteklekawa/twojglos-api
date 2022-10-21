@@ -5,6 +5,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   Req,
   Res,
 } from '@nestjs/common';
@@ -62,9 +63,9 @@ export class AppController {
   }
 
   @Get('/fetch-projects/:city')
-  fetchProjects(@Param('city') city: string) {
+  fetchProjects(@Param('city') city: string, @Query() phrase: string) {
     city = city.toLowerCase();
-    return this.appService.fetchProjects(city);
+    return this.appService.fetchProjects(city, phrase);
   }
 
   @Get('/fetch-user-projects/:userId')

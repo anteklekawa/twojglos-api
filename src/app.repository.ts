@@ -38,7 +38,7 @@ export class AppRepository {
         },
       });
       if (!user) {
-        throw new Error('Failed to register!');
+        throw new Error('Wystąpił błąd przy rejestracji!');
       } else return { status: 'Success!', user };
     } else
       throw new UnauthorizedException('Podane dane są już zarejestrowane!');
@@ -110,10 +110,16 @@ export class AppRepository {
     });
   }
 
-  async fetchProjects(city) {
-    return await this.prismaService.projects.findMany({
-      where: { city },
-    });
+  async fetchProjects(city, phrase) {
+    if (phrase == '') {
+      return await this.prismaService.projects.findMany({
+        where: { city },
+      });
+    } else {
+      return await this.prismaService.projects.findMany({
+        where: { city, title: { search: phrase } },
+      });
+    }
   }
 
   async fetchProject(projectId: number, userId: number) {
@@ -169,7 +175,6 @@ export class AppRepository {
           { email: loginUserDto.login },
           { phone: loginUserDto.login || null },
         ],
-        AND: [{ password: loginUserDto.password }],
       },
       select: {
         id: true,
@@ -178,11 +183,11 @@ export class AppRepository {
         email: true,
         phone: true,
         city: true,
+        password: true,
       },
     });
-
     if (user.length == 0)
-      throw new NotFoundException(`Błędny login lub hasło!`);
+      throw new NotFoundException('Błędny login lub hasło!');
     return user[0];
   }
 
@@ -198,7 +203,7 @@ export class AppRepository {
     });
 
     if (isVoted.length > 0)
-      throw new UnauthorizedException('You have already voted!');
+      throw new UnauthorizedException('Oddałeś już głos na ten projekt!');
 
     await this.prismaService.projects.update({
       where: { id: projectId },

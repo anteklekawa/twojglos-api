@@ -3,13 +3,14 @@ import { CreateUserDto } from './dtos/create-user.dto';
 import { AppRepository } from './app.repository';
 import { CreateProjectDto } from './dtos/create-project.dto';
 import { LoginUserDto } from './dtos/login-user.dto';
-import { WASI } from 'wasi';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AppService {
   constructor(private readonly appRepository: AppRepository) {}
 
   async createUser(createUserDto: CreateUserDto) {
+    createUserDto.password = await this.encryptData(createUserDto.password);
     createUserDto.isGov = false;
     createUserDto.theme = 'light';
     return await this.appRepository.createUser(createUserDto);
@@ -20,7 +21,7 @@ export class AppService {
     createProjectDto.votes = 0;
     createProjectDto.city = createProjectDto.city.toLowerCase();
     if (createProjectDto.userId == -1 || !createProjectDto.userId)
-      throw new UnauthorizedException('You are not logged in!');
+      throw new UnauthorizedException('Nie jesteś zalogowany!');
     return await this.appRepository.createProject(createProjectDto);
   }
 
@@ -36,8 +37,9 @@ export class AppService {
     return await this.appRepository.approveProject(projectId);
   }
 
-  async fetchProjects(city) {
-    const projects = await this.appRepository.fetchProjects(city);
+  async fetchProjects(city, phrase) {
+    if (!phrase) phrase = '';
+    const projects = await this.appRepository.fetchProjects(city, phrase);
     return projects.map((project) => {
       const coords = { lat: Number(project.lat), lng: Number(project.lng) };
       delete project.lng, project.lat;
@@ -92,15 +94,21 @@ export class AppService {
 
   async userLogin(loginUserDto: LoginUserDto) {
     const res = await this.appRepository.userLogin(loginUserDto);
-    if (res) {
-      const censor_phone = res.phone.split('');
-      for (let i = 4; i < res.phone.length - 2; i++) {
-        if (censor_phone[i] == ' ') {
-          i++;
+    const isMatch = await bcrypt.compare(loginUserDto.password, res.password);
+    delete res.password;
+    if (isMatch == true) {
+      if (res) {
+        const censor_phone = res.phone.split('');
+        for (let i = 4; i < res.phone.length - 2; i++) {
+          if (censor_phone[i] == ' ') {
+            i++;
+          }
+          censor_phone[i] = '*';
         }
-        censor_phone[i] = '*';
+        res.phone = censor_phone.join('');
       }
-      res.phone = censor_phone.join('');
+    } else {
+      throw new UnauthorizedException('Błędne hasło lub login!');
     }
 
     return res;
@@ -116,5 +124,10 @@ export class AppService {
 
   async saveSettings(userId: number, theme: string) {
     return await this.appRepository.saveSettings(userId, theme);
+  }
+
+  async encryptData(string: string) {
+    const saltOrRounds = 10;
+    return await bcrypt.hash(string, saltOrRounds);
   }
 }
