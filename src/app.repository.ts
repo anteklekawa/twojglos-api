@@ -45,6 +45,14 @@ export class AppRepository {
   }
 
   async createProject(createProjectDto) {
+    createProjectDto.userId = parseInt(String(createProjectDto.userId));
+    const user = await this.prismaService.users.findUnique({
+      where: { id: createProjectDto.userId },
+      select: { name: true, surname: true },
+    });
+
+    createProjectDto.author = String(user.name + ' ' + user.surname);
+
     const project = await this.prismaService.projects.create({
       data: {
         title: createProjectDto.title,

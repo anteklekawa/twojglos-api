@@ -107,7 +107,7 @@ export class AppService {
         res.phone = censor_phone.join('');
       }
     } else {
-      throw new UnauthorizedException('Błędne hasło lub login!');
+      throw new UnauthorizedException('Błędny login lub hasło!');
     }
 
     return res;
