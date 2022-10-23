@@ -2,7 +2,7 @@ export class CreateUserDto {
   email: string;
   password: string;
   city: string;
-  pesel: number;
+  pesel: string;
   name: string;
   surname: string;
   phone: string;

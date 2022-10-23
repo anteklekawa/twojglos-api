@@ -29,7 +29,7 @@ model users {
   email    String?
   password String?
   city     String?
-  pesel    Decimal?
+  pesel    String?
   name     String?
   surname  String?
   phone    String?
