@@ -85,6 +85,7 @@ export class AppRepository {
     await this.prismaService.userProjects.deleteMany({
       where: { userId: id },
     });
+    return { status: 'Success' };
   }
 
   async deleteProject(projectId: number) {
@@ -98,6 +99,7 @@ export class AppRepository {
     await this.prismaService.userProjects.deleteMany({
       where: { projectId: id },
     });
+    return { status: 'Success' };
   }
 
   async approveProject(projectId: number) {
