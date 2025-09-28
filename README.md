@@ -1,73 +1,48 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Backend System: Citizan participation platform in city's budget - Twój Głos.
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Project Overview
+A sophisticated NestJS backend for a civic engagement platform that enables citizens to propose, vote on, and track community development projects. The system handles user management, project lifecycle, and real-time voting with enterprise-grade architecture.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Technical Stack & Advanced Solutions
+- **Modern Framework**: NestJS with TypeScript for robust, scalable backend development
+- **Database ORM**: Prisma with PostgreSQL for type-safe database operations and migrations
+- **Security Implementation**: bcrypt hashing with salt rounds for password protection
+- **RESTful API Design**: Clean, structured endpoints with proper HTTP status codes
+- **Middleware Integration**: Cookie-parser for session management
 
-## Description
+## Key Technical Achievements
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+### 🔐 Advanced Authentication System
+- Secure login with multiple identity options (email/phone)
+- Session-based authentication with cookie storage
+- Data privacy protection through phone number masking
+- Duplicate user detection during registration
 
-## Installation
+### 🏗️ Project Management Engine
+- Geolocation support with coordinate mapping (lat/lng)
+- Advanced search functionality with phrase matching
+- Project approval workflow for administrative control
+- Real-time vote counting and validation
 
-```bash
-$ npm install
-```
+### 🗳️ Sophisticated Voting Mechanism
+- Anti-duplication voting system with transaction safety
+- Vote tracking through relational database design
+- Atomic vote increments to prevent race conditions
 
-## Running the app
+### ⚙️ Scalable Architecture
+- **Repository Pattern**: Clean separation between business logic and data access
+- **DTO Validation**: Type-safe data transfer objects for all endpoints
+- **Modular Design**: Easily extensible service layer
+- **Error Handling**: Comprehensive exception management with custom HTTP exceptions
 
-```bash
-# development
-$ npm run start
+## Professional Development Practices
+- **TypeScript Implementation**: Full type safety across the application
+- **Dependency Injection**: NestJS built-in IoC container for testable code
+- **API Versioning Ready**: Structured for future scalability
+- **Database Transactions**: Proper data consistency in multi-operation processes
 
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+## Business Logic Complexity
+- Multi-role user system (citizens vs government users)
+- Project lifecycle management from creation to approval
+- Location-based project filtering and categorization
+- User preference system with theme persistence
